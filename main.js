@@ -56,18 +56,18 @@ const posts = [
     }
 ];
 
-var likedPosts=[];
+var likedPosts=[]; // id list of liked posts
 
 function createPost(post){
-    let authorImage = ""
-    if (post.author.image == null){
-        let a = post.author.name;
-        let b = a.split(` `);
+    let authorImage = ""  
+    if (post.author.image == null){ //checks if the author has no profile picture
+        let a = post.author.name; 
+        let b = a.split(` `); // identifies name and surname of the author
         authorImage =`
         <div class="post-meta__icon profile-pic-default">  
             <span> ` + b[0][0] + ` ` + b[1][0] + `</span>                
-        </div>`
-    } else {
+        </div>` //uses as profile pic the initials of the author
+    } else { //if the post author has a profile pic, visualises it
         authorImage =`
         <div class="post-meta__icon">
             <img class="profile-pic" src="`+ post.author.image +`" alt="`+ post.author.name +`">                    
@@ -104,8 +104,8 @@ function createPost(post){
     </div>`;
 }
 
-function likeAction(id){
-    likedPosts.push(id);
+function likeAction(id){ 
+    likedPosts.push(id); 
     posts[id -1].likes +=1;
     postLikes[id -1].innerHTML=posts[id -1].likes;
 }
@@ -121,7 +121,7 @@ function unlikeAction(id){
 function likedPost(){
     this.classList.toggle("like-button--liked");
     let id = parseInt(this.dataset.postid);
-    if (this.classList.contains("like-button--liked")){
+    if (this.classList.contains("like-button--liked")){ //checks if it's a like or unlike action
         likeAction(id);
     } else {
         unlikeAction(id);
@@ -130,7 +130,7 @@ function likedPost(){
 }
 
 for (let i=0;i<posts.length;i++){
-    createPost(posts[i]);
+    createPost(posts[i]); 
 }
 
 var likeButtons = document.querySelectorAll(".like-button");
