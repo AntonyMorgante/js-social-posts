@@ -58,26 +58,32 @@ const posts = [
 
 var likedPosts=[]; // id list of liked posts
 
-function createPost(post){
-    let authorImage = ""  
-    if (post.author.image == null){ //checks if the author has no profile picture
-        let a = post.author.name; 
-        let b = a.split(` `); // identifies name and surname of the author
-        authorImage =`
+function determineProfilePicture(image,name){
+    let profilePicture ="";
+    if (image == null){ //checks if the author has no profile picture
+        let b = name.split(` `); // identifies name and surname of the author
+        profilePicture =`
         <div class="post-meta__icon profile-pic-default">  
             <span> ` + b[0][0] + ` ` + b[1][0] + `</span>                
         </div>` //uses as profile pic the initials of the author
     } else { //if the post author has a profile pic, visualises it
-        authorImage =`
+        profilePicture =`
         <div class="post-meta__icon">
-            <img class="profile-pic" src="`+ post.author.image +`" alt="`+ post.author.name +`">                    
+            <img class="profile-pic" src="`+ image +`" alt="`+ name +`">                    
         </div>`
-    }    
+    }  
+    return profilePicture;
+}
+
+function createPost(post){
+    let name = post.author.name;
+    let image = post.author.image;
+    let profilePicture = determineProfilePicture(image,name);  
     const container = document.querySelector(".posts-list");   
     container.innerHTML +=`
     <div class="post" id="` + post.id + `">
         <div class="post__header">
-            <div class="post-meta">` + authorImage + `                   
+            <div class="post-meta">` + profilePicture + `                   
                 <div class="post-meta__data">
                     <div class="post-meta__author">`+ post.author.name +`</div>
                     <div class="post-meta__time">`+ new Date(post.created).toLocaleDateString(`en-GB`) +`</div>
